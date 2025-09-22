@@ -31,4 +31,7 @@ dependencyResolutionManagement {
 include(":composeApp")
 include(":core-common")
 include(":core-network")
-include(":core-ui")
+include(":core-presentation:data")
+include(":core-presentation:domain")
+include(":core-presentation:presentation")
+include(":image-loading")

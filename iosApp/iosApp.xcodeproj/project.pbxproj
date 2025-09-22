@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F3D435CD2E7ABDD6003934C1 /* ComposeApp.framework.dSYM in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D435CC2E7ABDD6003934C1 /* ComposeApp.framework.dSYM */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		81973581F8B04832514C0078 /* Voxy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Voxy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3D435CC2E7ABDD6003934C1 /* ComposeApp.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = ComposeApp.framework.dSYM; path = "../composeApp/build/xcode-frameworks/Debug/iphonesimulator18.5/ComposeApp.framework.dSYM"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,27 +46,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D435CD2E7ABDD6003934C1 /* ComposeApp.framework.dSYM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		314CF6E97A5641162BE553EF = {
-			isa = PBXGroup;
-			children = (
-				A78E9B27710EAD5E5A0EC0E9 /* Configuration */,
-				0BE05A2EFE968C311BE59332 /* iosApp */,
-				1440CDE77E4985DB75A5B382 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
 		1440CDE77E4985DB75A5B382 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				81973581F8B04832514C0078 /* Voxy.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		314CF6E97A5641162BE553EF = {
+			isa = PBXGroup;
+			children = (
+				A78E9B27710EAD5E5A0EC0E9 /* Configuration */,
+				0BE05A2EFE968C311BE59332 /* iosApp */,
+				F3D435CB2E7ABDD5003934C1 /* Frameworks */,
+				1440CDE77E4985DB75A5B382 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3D435CB2E7ABDD5003934C1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F3D435CC2E7ABDD6003934C1 /* ComposeApp.framework.dSYM */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +182,34 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		023E86AC04215691D7A8B427 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
+				DEVELOPMENT_TEAM = "${TEAM_ID}";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iosApp/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		9FAF87BB9B3F76AB544FD122 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A78E9B27710EAD5E5A0EC0E9 /* Configuration */;
@@ -317,34 +360,6 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
-		};
-		023E86AC04215691D7A8B427 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
-				DEVELOPMENT_TEAM = "${TEAM_ID}";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = iosApp/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
 		};
 /* End XCBuildConfiguration section */
 

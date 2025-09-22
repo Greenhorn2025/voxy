@@ -23,4 +23,10 @@ object AppColors {
     val OnBackground = Color(0xFFE6E6E6)
     val Error = Color(0xFFCF6679)
     val OnError = Color(0xFF000000)
+
+    val priceHighlight = Color(0xFFD1ACFE)
+    val darkHighlight = Color(0xFF42BE65)
+    val borderHighlight = Color(0xFFD1ACFE)
+    val disableColor = Color(0xFF828282)
+    val white = Color(0xFFF0F0F0)
 }

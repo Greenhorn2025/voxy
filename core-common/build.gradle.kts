@@ -15,14 +15,26 @@ kotlin {
     }
 
     // Add the same iOS targets as your composeApp
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { _ ->
+    }
 
     sourceSets {
         commonMain.dependencies {
             // Ktor
             implementation(libs.kotlinx.serialization.json)
+
+            implementation(compose.material3)
+            api(libs.sdp.ssp.compose.multiplatform)
+            implementation(compose.components.resources)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+
+            // Google Phone Hint
+//            implementation(libs.play.services.auth)
         }
 
         androidMain.dependencies {
@@ -67,11 +79,6 @@ android {
 
 
 dependencies {
-    api(compose.material3)
-    api(libs.kmp.observableviewmodel.core)
-    api(libs.sdp.ssp.compose.multiplatform)
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

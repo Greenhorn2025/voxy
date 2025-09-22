@@ -15,12 +15,12 @@ kotlin {
     }
 
     listOf(
+        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
         }
     }
     
@@ -31,17 +31,25 @@ kotlin {
 
             implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
+            implementation(libs.bundles.coil3.okhttp)
+
+            //Otpless
+            implementation (libs.otpless.headless.sdk)
         }
         commonMain.dependencies {
-            api(projects.coreCommon)
+            api(projects.imageLoading)
+            api(projects.corePresentation.domain)
+            api(projects.corePresentation.data)
+            api(projects.corePresentation.presentation)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.sdp.ssp.compose.multiplatform)
+
+            implementation(compose.material3)
+            api(libs.navigation.compose)
 
             // Ktor
             implementation(libs.ktor.client.core)
@@ -51,6 +59,8 @@ kotlin {
 
             // Koin
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
 
             // Kotlinx Serialization
             implementation(libs.kotlinx.serialization.json)

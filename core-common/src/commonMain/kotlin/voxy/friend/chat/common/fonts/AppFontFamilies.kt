@@ -3,35 +3,36 @@ package voxy.friend.chat.common.fonts
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import network.chaintech.sdpcomposemultiplatform.ssp
-import voxy.friend.chat.common.R
+import org.jetbrains.compose.resources.Font
+import voxy.core_common.generated.resources.Res
+import voxy.core_common.generated.resources.figtree_italic
+import voxy.core_common.generated.resources.figtree_medium
+import voxy.core_common.generated.resources.figtree_regular
+import voxy.core_common.generated.resources.figtree_semi_bold
 
 object AppFontFamilies {
 
-    val regular = FontFamily(
-        Font(R.font.figtree_regular, FontWeight.Normal),
-    )
-    val medium = FontFamily(
-        Font(R.font.figtree_medium, FontWeight.Normal),
-    )
-    val semibold = FontFamily(
-        Font(R.font.figtree_semi_bold, FontWeight.Normal),
-    )
-    val italic = FontFamily(
-        Font(R.font.figtree_italic, FontWeight.Normal),
-    )
+    @Composable
+    fun regular() = FontFamily(Font(Res.font.figtree_regular, FontWeight.Normal))
 
+    @Composable
+    fun medium() = FontFamily(Font(Res.font.figtree_medium, FontWeight.Medium))
+
+    @Composable
+    fun semibold() = FontFamily(Font(Res.font.figtree_semi_bold, FontWeight.SemiBold))
+
+    @Composable
+    fun italic() = FontFamily(Font(Res.font.figtree_italic, FontWeight.Bold))
 }
 
 @Composable
-fun voxySspTypegraphy() = Typography(
-
+fun voxySspTypography() = Typography(
     // Display Large
     displayLarge = TextStyle(
-        fontFamily = AppFontFamilies.semibold,
+        fontFamily = AppFontFamilies.semibold(),
         fontWeight = FontWeight.Normal,
         fontSize = 57.ssp,
         lineHeight = 64.ssp,
@@ -40,7 +41,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Display Medium
     displayMedium = TextStyle(
-        fontFamily = AppFontFamilies.medium,
+        fontFamily = AppFontFamilies.medium(),
         fontWeight = FontWeight.Normal,
         fontSize = 45.ssp,
         lineHeight = 52.ssp,
@@ -49,7 +50,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Display Small
     displaySmall = TextStyle(
-        fontFamily = AppFontFamilies.regular,
+        fontFamily = AppFontFamilies.regular(),
         fontWeight = FontWeight.Normal,
         fontSize = 36.ssp,
         lineHeight = 44.ssp,
@@ -58,7 +59,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Headline Large
     headlineLarge = TextStyle(
-        fontFamily = AppFontFamilies.semibold,
+        fontFamily = AppFontFamilies.semibold(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 32.ssp,
         lineHeight = 40.ssp,
@@ -67,7 +68,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Headline Medium
     headlineMedium = TextStyle(
-        fontFamily = AppFontFamilies.medium,
+        fontFamily = AppFontFamilies.medium(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 28.ssp,
         lineHeight = 36.ssp,
@@ -76,7 +77,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Headline Small
     headlineSmall = TextStyle(
-        fontFamily = AppFontFamilies.regular,
+        fontFamily = AppFontFamilies.regular(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.ssp,
         lineHeight = 32.ssp,
@@ -85,7 +86,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Title Large
     titleLarge = TextStyle(
-        fontFamily = AppFontFamilies.semibold,
+        fontFamily = AppFontFamilies.semibold(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 22.ssp,
         lineHeight = 28.ssp,
@@ -94,7 +95,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Title Medium
     titleMedium = TextStyle(
-        fontFamily = AppFontFamilies.medium,
+        fontFamily = AppFontFamilies.medium(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.ssp,
         lineHeight = 24.ssp,
@@ -103,7 +104,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Title Small
     titleSmall = TextStyle(
-        fontFamily = AppFontFamilies.regular,
+        fontFamily = AppFontFamilies.regular(),
         fontWeight = FontWeight.Bold,
         fontSize = 14.ssp,
         lineHeight = 20.ssp,
@@ -112,7 +113,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Body Large
     bodyLarge = TextStyle(
-        fontFamily = AppFontFamilies.semibold,
+        fontFamily = AppFontFamilies.semibold(),
         fontWeight = FontWeight.Normal,
         fontSize = 16.ssp,
         lineHeight = 24.ssp,
@@ -121,7 +122,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Body Medium
     bodyMedium = TextStyle(
-        fontFamily = AppFontFamilies.medium,
+        fontFamily = AppFontFamilies.medium(),
         fontWeight = FontWeight.Normal,
         fontSize = 14.ssp,
         lineHeight = 20.ssp,
@@ -130,7 +131,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Body Small
     bodySmall = TextStyle(
-        fontFamily = AppFontFamilies.regular,
+        fontFamily = AppFontFamilies.regular(),
         fontWeight = FontWeight.Normal,
         fontSize = 12.ssp,
         lineHeight = 16.ssp,
@@ -139,7 +140,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Label Large
     labelLarge = TextStyle(
-        fontFamily = AppFontFamilies.semibold,
+        fontFamily = AppFontFamilies.semibold(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.ssp,
         lineHeight = 20.ssp,
@@ -148,7 +149,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Label Medium
     labelMedium = TextStyle(
-        fontFamily = AppFontFamilies.medium,
+        fontFamily = AppFontFamilies.medium(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 12.ssp,
         lineHeight = 16.ssp,
@@ -157,7 +158,7 @@ fun voxySspTypegraphy() = Typography(
 
     // Label Small
     labelSmall = TextStyle(
-        fontFamily = AppFontFamilies.regular,
+        fontFamily = AppFontFamilies.regular(),
         fontWeight = FontWeight.SemiBold,
         fontSize = 11.ssp,
         lineHeight = 16.ssp,

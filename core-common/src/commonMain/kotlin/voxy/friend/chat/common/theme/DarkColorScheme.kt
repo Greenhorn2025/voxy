@@ -4,7 +4,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.ui.graphics.Color
 import voxy.friend.chat.common.color.AppColors
 
-private val DarkColorScheme = darkColorScheme(
+val DarkColorScheme = darkColorScheme(
     primary = AppColors.Primary,
     onPrimary = AppColors.OnPrimary,
     primaryContainer = AppColors.PrimaryMuted,
