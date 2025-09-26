@@ -33,6 +33,9 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
 
+            api(libs.cmptoast)
+            api(libs.navigation.compose)
+
             // Google Phone Hint
 //            implementation(libs.play.services.auth)
         }

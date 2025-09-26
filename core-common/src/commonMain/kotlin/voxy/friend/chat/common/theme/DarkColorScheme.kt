@@ -33,13 +33,13 @@ val DarkColorScheme = darkColorScheme(
     surfaceVariant = AppColors.SurfaceVariant,
     onSurfaceVariant = Color(0xFFCAC4D0),
 
-    outline = Color(0xFF938F99),
+    outline = AppColors.StrokeColor,
     outlineVariant = Color(0xFF49454F),
 
     scrim = Color(0xFF000000),
     inverseSurface = AppColors.Inverse,
     inverseOnSurface = AppColors.Primary,
-    inversePrimary = Color(0xFF6750A4),
+    inversePrimary = AppColors.disableColor,
 
     surfaceDim = Color(0xFF0F0F0F),
     surfaceBright = Color(0xFF2B2B2B),

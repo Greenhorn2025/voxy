@@ -11,6 +11,7 @@ class VoxyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        multiplatform.network.cmptoast.AppContext.apply { set(applicationContext) }
         Napier.base(DebugAntilog())
         initKoin {
             it.modules(getPhoneHintDataSource())

@@ -27,12 +27,13 @@ kotlin {
         commonMain.dependencies {
             api(projects.coreCommon)
             api(projects.corePresentation.domain)
+            api(projects.imageLoading)
 
             api(libs.napier)
 
             api(libs.koin.viewmodel)
             api(libs.koin.viewmodel.navigation)
-//            implementation(libs.androidx.activity.compose)
+            implementation(libs.bundles.coil3.ktor)
 
             // Ktor
             implementation(libs.kotlinx.serialization.json)
@@ -43,6 +44,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
         }
 
@@ -51,6 +53,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(compose.preview)
             implementation(libs.logger)
+            implementation(libs.bundles.coil3.okhttp)
         }
 
         iosMain.dependencies {

@@ -21,6 +21,7 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
+            isStatic = true
         }
     }
     
@@ -32,12 +33,13 @@ kotlin {
             implementation(libs.ktor.client.android)
             implementation(libs.koin.android)
             implementation(libs.bundles.coil3.okhttp)
-
+            implementation(libs.androidx.core.splashscreen)
             //Otpless
             implementation (libs.otpless.headless.sdk)
         }
         commonMain.dependencies {
             api(projects.imageLoading)
+            api(projects.coreCommon)
             api(projects.corePresentation.domain)
             api(projects.corePresentation.data)
             api(projects.corePresentation.presentation)
@@ -49,7 +51,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(compose.material3)
-            api(libs.navigation.compose)
 
             // Ktor
             implementation(libs.ktor.client.core)

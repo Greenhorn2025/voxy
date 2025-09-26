@@ -12,6 +12,7 @@ androidx-lifecycle = "2.9.4"
 androidx-testExt = "1.3.0"
 coilNetworkKtor3 = "3.3.0"
 composeMultiplatform = "1.9.0"
+coreSplashscreen = "1.0.1"
 junit = "4.13.2"
 kmpObservableviewmodelCore = "1.0.0-BETA-14"
 kotlin = "2.2.20"
@@ -20,7 +21,7 @@ koin = "4.1.1"
 kotlinx-serialization = "1.9.0"
 logger = "2.2.0"
 material = "1.13.0"
-otplessHeadlessSdk = "0.3.4"
+otplessHeadlessSdk = "0.3.6"
 playServicesAuth = "21.4.0"
 sdpSspComposeMultiplatform = "1.0.7"
 navigation = "2.9.0"
@@ -30,6 +31,8 @@ napier = "2.7.1"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+cmptoast = { module = "network.chaintech:cmptoast", version.ref = "sdpSspComposeMultiplatform" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilNetworkKtor3" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilNetworkKtor3" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkKtor3" }

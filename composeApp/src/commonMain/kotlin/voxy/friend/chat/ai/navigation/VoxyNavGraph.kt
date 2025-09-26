@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import voxy.friend.chat.login.SubscriptionPaywallScreen
 
 object VoxyNavGraph : BaseNavGraph {
 
@@ -21,7 +20,6 @@ object VoxyNavGraph : BaseNavGraph {
     ) {
         navGraphBuilder.navigation(route = Dest.Root.route, startDestination = Dest.Subscription.route) {
             composable(route = Dest.Subscription.route) {
-                SubscriptionPaywallScreen()
             }
         }
     }
