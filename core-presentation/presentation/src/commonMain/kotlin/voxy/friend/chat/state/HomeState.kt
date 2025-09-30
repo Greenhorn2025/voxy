@@ -5,7 +5,7 @@ import voxy.friend.chat.navigation.Destinations
 data class HomeState(
     val isLoading: Boolean = false,
     val showBottomSheet : Boolean = false,
-    val destinations: Destinations = Destinations.SubscriptionScreen
+    val destinations: Destinations = Destinations.BotChatScreen
 )
 
 open class HomeStateSideEffect{

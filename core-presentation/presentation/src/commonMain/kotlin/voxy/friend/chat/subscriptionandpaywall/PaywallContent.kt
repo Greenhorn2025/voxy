@@ -2,8 +2,11 @@ package voxy.friend.chat.subscriptionandpaywall
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,37 +21,44 @@ fun PaywallContent(
     showBottomSheet: Boolean,
     onStartTrialClick: () -> Unit
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        // Header Section
-        PaywallHeader()
+    Scaffold(
+        modifier = Modifier.fillMaxSize(), topBar = {
+            PaywallTopBar()
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = modifier.fillMaxWidth().padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            // Header Section
+            PaywallHeader()
 
-        Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.height(40.dp))
 
-        // Main Image
-        PaywallImage()
+            // Main Image
+            PaywallImage()
 
-        // Disclaimer Text
-        PaywallDisclaimer()
+            // Disclaimer Text
+            PaywallDisclaimer()
 
-        Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(24.dp))
 
-        // Unlock Section
-        PaywallUnlockSection()
+            // Unlock Section
+            PaywallUnlockSection()
 
-        Spacer(Modifier.weight(1f))
+            Spacer(Modifier.weight(1f))
 
-        // Payment Section
-        PaymentRowSection(
-            paymentLogoRes = Res.drawable.ic_paytm,
-            onStartTrialClick = onStartTrialClick
-        )
+            // Payment Section
+            PaymentRowSection(
+                paymentLogoRes = Res.drawable.ic_paytm,
+                onStartTrialClick = onStartTrialClick
+            )
 
-        // Bottom Sheet
-        if (showBottomSheet) {
-            OnBoardingGraph()
+            // Bottom Sheet
+            if (showBottomSheet) {
+                OnBoardingGraph()
+            }
         }
     }
+
 }

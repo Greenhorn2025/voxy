@@ -37,7 +37,7 @@ kotlin {
             api(libs.navigation.compose)
 
             // Google Phone Hint
-//            implementation(libs.play.services.auth)
+            implementation(libs.coil.compose)
         }
 
         androidMain.dependencies {

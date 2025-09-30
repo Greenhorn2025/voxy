@@ -11,6 +11,7 @@ fun initKoin(koinApplication: ((KoinApplication) -> Unit)? = null ) {
        koinApplication?.invoke(this)
         modules(
             getLoginDataModule(),
+            androidNetworkModule(),
             getLoginDomainModule(),
             getLoginUiModule(),
         )

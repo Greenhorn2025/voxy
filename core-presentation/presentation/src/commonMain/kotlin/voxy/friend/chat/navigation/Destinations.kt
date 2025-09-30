@@ -16,4 +16,5 @@ sealed class Destinations(val route: String) {
         }
     }
     data object SubscriptionScreen : Destinations(route = "subscription_screen")
+    data object BotChatScreen : Destinations(route = "chat_screen")
 }
