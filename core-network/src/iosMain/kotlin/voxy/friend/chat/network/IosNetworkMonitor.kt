@@ -1,4 +1,4 @@
-package voxy.friend.chat.ai.network
+package voxy.friend.chat.network
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

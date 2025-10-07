@@ -1,4 +1,4 @@
-package voxy.friend.chat.ai.network
+package voxy.friend.chat.network
 
 data class NetworkInfo(
     val state: NetworkState = NetworkState.CHECKING,

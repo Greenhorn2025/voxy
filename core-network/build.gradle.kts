@@ -26,6 +26,9 @@ kotlin {
         commonMain.dependencies {
             // Ktor
             implementation(libs.kotlinx.serialization.json)
+            implementation(projects.coreCommon)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
 
         androidMain.dependencies {

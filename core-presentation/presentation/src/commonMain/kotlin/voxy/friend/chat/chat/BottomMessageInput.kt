@@ -82,7 +82,7 @@ fun BottomMessageInput(
                     stiffness = Spring.StiffnessMedium
                 )
             ),
-        color = Color.Black
+        color = AppColors.Primary
     ) {
         Row(
             modifier = Modifier
@@ -101,7 +101,7 @@ fun BottomMessageInput(
                         )
                     ),
                 color = AppColors.Tertiary,
-                shape = RoundedCornerShape(24.sdp)
+                shape = RoundedCornerShape(8.sdp)
             ) {
                 Row(
                     modifier = Modifier

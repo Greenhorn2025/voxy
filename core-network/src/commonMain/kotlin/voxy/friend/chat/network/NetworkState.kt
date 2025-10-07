@@ -1,4 +1,4 @@
-package voxy.friend.chat.ai.network
+package voxy.friend.chat.network
 
 enum class NetworkState {
     CONNECTED, SLOW_CONNECTION, CONNECTING, DISCONNECTED, CHECKING

@@ -1,0 +1,7 @@
+<resources>
+    <string name="internet_issue">You are facing internet issues. Reconnecting...</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="disappearing">Disappearing Chats</string>
+    <string name="mood">Set Mood</string>
+    <string name="clear_chat">Clear Chat</string>
+</resources>

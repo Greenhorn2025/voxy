@@ -8,6 +8,13 @@ plugins {
 }
 
 kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(compose.components.resources)
+            }
+        }
+    }
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -28,6 +35,7 @@ kotlin {
             api(projects.coreCommon)
             api(projects.corePresentation.domain)
             api(projects.imageLoading)
+            api(projects.coreNetwork)
 
             api(libs.napier)
 

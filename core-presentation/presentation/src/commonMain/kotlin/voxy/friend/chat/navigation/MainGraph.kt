@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import voxy.friend.chat.chat.BotChatScreen
+import voxy.friend.chat.chat.ChatBotScreen
 import voxy.friend.chat.subscriptionandpaywall.PaywallScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,7 +21,7 @@ fun MainGraph(
         startDestination = startDestinations.route,
     ) {
         composable(route = Destinations.BotChatScreen.route) {
-            BotChatScreen(modifier)
+            ChatBotScreen(modifier)
         }
         composable(route = Destinations.SubscriptionScreen.route) {
             PaywallScreen(modifier)

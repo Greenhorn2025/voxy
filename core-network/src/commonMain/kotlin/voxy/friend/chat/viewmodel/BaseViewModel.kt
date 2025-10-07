@@ -1,4 +1,4 @@
-package voxy.friend.chat.common.viewmodel
+package voxy.friend.chat.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,9 +7,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import voxy.friend.chat.network.NetworkInfo
+import voxy.friend.chat.network.NetworkMonitor
+import voxy.friend.chat.network.NetworkState
 
-abstract class BaseViewModel<STATE, SIDE_EFFECT> : ViewModel() {
+abstract class BaseViewModel<STATE, SIDE_EFFECT>(
+    private val networkMonitor: NetworkMonitor
+) : ViewModel() {
 
+    init {
+        startNetworkMonitoring()
+    }
     abstract fun setDefaultState(): STATE
 
     private val _state: MutableStateFlow<STATE> = MutableStateFlow(setDefaultState())
@@ -24,5 +32,19 @@ abstract class BaseViewModel<STATE, SIDE_EFFECT> : ViewModel() {
 
     fun postSideEffect(sideEffect: SIDE_EFFECT) = viewModelScope.launch {
         _sideEffect.emit(sideEffect)
+    }
+
+    protected open fun networkState(): StateFlow<NetworkInfo> = networkMonitor.networkState
+
+    // (optional) convenience helpers
+    protected val isConnected: Boolean
+        get() = networkMonitor.networkState.value.state == NetworkState.CONNECTED
+
+    protected fun startNetworkMonitoring() = networkMonitor.startMonitoring()
+    protected fun stopNetworkMonitoring() = networkMonitor.stopMonitoring()
+
+    override fun onCleared() {
+        stopNetworkMonitoring()
+        super.onCleared()
     }
 }

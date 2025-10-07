@@ -13,6 +13,7 @@ object AppColors {
     val Tertiary = Color(0xFF2A2A2A)
     val Inverse = Color(0xFFE6E6E6)
     val PrimaryMuted = Color(0xFF2D2636)
+    val Delete = Color(0xFFFF8389)
 
     // Additional colors for better theme support
     val Surface = Color(0xFF121212)
@@ -30,6 +31,8 @@ object AppColors {
     val borderHighlight = Color(0xFFD1ACFE)
     val baseColor = Color(0xFFD1ACFE)
     val disableColor = Color(0xFF828282)
+    val disableColor_1 = Color(0xFF999999)
+
     val white = Color(0xFFF0F0F0)
     val secondary_text = Color(0xFFB0B0B0)
     val drop_down_bg = Color(0xFF1F1F1F)

@@ -40,6 +40,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.imageLoading)
             api(projects.coreCommon)
+            implementation(projects.coreNetwork)
             api(projects.corePresentation.domain)
             api(projects.corePresentation.data)
             api(projects.corePresentation.presentation)

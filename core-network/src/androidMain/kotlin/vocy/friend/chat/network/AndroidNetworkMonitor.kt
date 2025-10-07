@@ -1,18 +1,30 @@
-package voxy.friend.chat.ai.network
+package vocy.friend.chat.network
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import voxy.friend.chat.network.ConnectionType
+import voxy.friend.chat.network.NetworkInfo
+import voxy.friend.chat.network.NetworkMonitor
+import voxy.friend.chat.network.NetworkSpeed
+import voxy.friend.chat.network.NetworkState
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
 class AndroidNetworkMonitor(
-    context: Context
+    context: Context,
+    private val coroutineScope: CoroutineScope,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NetworkMonitor {
 
     private val connectivityManager =
@@ -30,7 +42,9 @@ class AndroidNetworkMonitor(
 
         networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                updateNetworkInfo(connectivityManager.getNetworkCapabilities(network))
+                coroutineScope.launch(ioDispatcher) {
+                    updateNetworkInfo(connectivityManager.getNetworkCapabilities(network))
+                }
             }
 
             override fun onLost(network: Network) {
@@ -41,24 +55,24 @@ class AndroidNetworkMonitor(
             }
 
             override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) {
-                updateNetworkInfo(caps)
+                coroutineScope.launch(ioDispatcher) { updateNetworkInfo(caps) }
             }
         }
         connectivityManager.registerNetworkCallback(request, networkCallback!!)
-        checkCurrentConnection()
+        coroutineScope.launch(ioDispatcher) { checkCurrentConnection() }
     }
 
     override fun stopMonitoring() {
         networkCallback?.let { connectivityManager.unregisterNetworkCallback(it) }
     }
 
-    private fun checkCurrentConnection() {
+    private suspend fun checkCurrentConnection() = withContext(ioDispatcher) {
         val active = connectivityManager.activeNetwork
         val caps = active?.let { connectivityManager.getNetworkCapabilities(it) }
         updateNetworkInfo(caps)
     }
 
-    private fun updateNetworkInfo(caps: NetworkCapabilities?) {
+    private suspend fun updateNetworkInfo(caps: NetworkCapabilities?) {
         if (caps == null) {
             _networkState.value = NetworkInfo(NetworkState.DISCONNECTED, type = ConnectionType.NONE)
             return
@@ -92,13 +106,16 @@ class AndroidNetworkMonitor(
         )
     }
 
-    private fun measurePing(): Int = try {
-        val start = System.currentTimeMillis()
-        (URL("https://www.google.com").openConnection() as HttpURLConnection).apply {
-            connectTimeout = 1000; connect()
+    private suspend fun measurePing(): Int = withContext(ioDispatcher) {
+        try {
+            val start = System.currentTimeMillis()
+            (URL("https://www.google.com").openConnection() as HttpURLConnection).apply {
+                connectTimeout = 1000; connect()
+            }
+            (System.currentTimeMillis() - start).toInt()
+        } catch (e: IOException) {
+            println(e.message)
+            999
         }
-        (System.currentTimeMillis() - start).toInt()
-    } catch (e: IOException) {
-        999
     }
 }

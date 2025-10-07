@@ -25,8 +25,8 @@ val DarkColorScheme = darkColorScheme(
     errorContainer = Color(0xFF93000A),
     onErrorContainer = Color(0xFFFFDAD6),
 
-    background = AppColors.Bg,
-    onBackground = AppColors.OnBackground,
+    background = AppColors.Primary,
+    onBackground = AppColors.Primary,
 
     surface = AppColors.Surface,
     onSurface = AppColors.OnSurface,
