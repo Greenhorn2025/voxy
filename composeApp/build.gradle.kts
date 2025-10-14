@@ -1,10 +1,14 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 kotlin {
@@ -34,8 +38,10 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.bundles.coil3.okhttp)
             implementation(libs.androidx.core.splashscreen)
-            //Otpless
-            implementation (libs.otpless.headless.sdk)
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:34.3.0"))
+            implementation(libs.firebase.analytics)
+            implementation(libs.firebase.crashlytics.ndk)
+            implementation(libs.firebase.perf)
         }
         commonMain.dependencies {
             api(projects.imageLoading)
@@ -52,12 +58,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
 
             implementation(compose.material3)
-
-            // Ktor
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.logging)
 
             // Koin
             implementation(libs.koin.core)
@@ -107,6 +107,9 @@ android {
         }
     }
     buildTypes {
+        getByName("debug") {
+            isMinifyEnabled = false
+        }
         getByName("release") {
             isMinifyEnabled = false
         }

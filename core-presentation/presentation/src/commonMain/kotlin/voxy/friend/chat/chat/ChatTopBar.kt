@@ -50,6 +50,7 @@ fun ChatTopBar(
     onDisappearingChatsToggle: (Boolean) -> Unit,
     onSetMoodClick: () -> Unit,
     onClearChatClick: () -> Unit,
+    onStartTrialClick: () -> Unit,
     disappearingChatsEnabled: Boolean = false
 ) {
     Column(modifier = modifier) {
@@ -91,7 +92,7 @@ fun ChatTopBar(
             StartTrialButton(
                 modifier = Modifier.wrapContentWidth(),
                 onClick = {
-
+                    onStartTrialClick.invoke()
                 },
                 text = "Start Trial",
                 enabled = true
@@ -125,7 +126,6 @@ fun ChatTopBar(
                     onSetMoodClick = onSetMoodClick,
                     onClearChatClick = onClearChatClick,
                     disappearingChatsEnabled = disappearingChatsEnabled,
-                    anchorAlignment = Alignment.End
                 )
             }
         }

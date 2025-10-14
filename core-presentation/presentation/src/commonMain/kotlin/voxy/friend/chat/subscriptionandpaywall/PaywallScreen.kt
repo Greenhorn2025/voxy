@@ -10,13 +10,16 @@ import voxy.friend.chat.viewmodel.SharedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaywallScreen(modifier: Modifier) {
+fun PaywallScreen(modifier: Modifier = Modifier, onDismiss: () -> Unit = {}) {
     val viewModel: SharedViewModel = koinInject<SharedViewModel>()
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     PaywallContent(
         modifier = modifier,
         showBottomSheet = uiState.showBottomSheet,
-        onStartTrialClick = { viewModel.updateBottomSheetState(true) }
+        onStartTrialClick = { viewModel.checkUserLoggedInState() },
+        onDismiss = {
+            onDismiss.invoke()
+        }
     )
 }

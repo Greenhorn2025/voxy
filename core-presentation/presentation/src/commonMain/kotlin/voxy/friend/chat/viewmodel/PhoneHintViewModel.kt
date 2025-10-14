@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import voxy.friend.chat.common.model.PhoneHintResult
 import voxy.friend.chat.common.model.PhoneHintSideEffect
 import voxy.friend.chat.common.model.PhoneHintUiState
+import voxy.friend.chat.datastore.VoxyDataStoreImpl
 import voxy.friend.chat.network.NetworkMonitor
 import voxy.friend.chat.usecase.GetPhoneHintUseCase
 import kotlin.coroutines.cancellation.CancellationException
@@ -16,8 +17,9 @@ import kotlin.coroutines.cancellation.CancellationException
 
 class PhoneHintViewModel(
     private val getPhoneHintUseCase: GetPhoneHintUseCase,
-    monitor: NetworkMonitor
-) : BaseViewModel<PhoneHintUiState, PhoneHintSideEffect>(monitor) {
+    monitor: NetworkMonitor,
+    dataStore: VoxyDataStoreImpl
+) : BaseViewModel<PhoneHintUiState, PhoneHintSideEffect>(monitor, dataStore) {
     private val _uiState = MutableStateFlow(PhoneHintUiState())
     val uiState: StateFlow<PhoneHintUiState> = _uiState.asStateFlow()
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709414089047",
+    "project_id": "voxy-381d1",
+    "storage_bucket": "voxy-381d1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709414089047:android:2806efb8c7dfc624758e12",
+        "android_client_info": {
+          "package_name": "voxy.friend.chat.ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApDAmEjk-IABbfivMW2x26xuhDZOuyJhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

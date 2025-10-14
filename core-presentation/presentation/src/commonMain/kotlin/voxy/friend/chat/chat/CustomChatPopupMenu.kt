@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -35,7 +34,6 @@ fun CustomChatPopupMenu(
     onSetMoodClick: () -> Unit = {},
     onClearChatClick: () -> Unit = {},
     disappearingChatsEnabled: Boolean = false,
-    anchorAlignment: Alignment.Horizontal = Alignment.End,
     paddingFromEdge: Dp = (-12).sdp
 ) {
     DisposableEffect(Unit) {
@@ -74,7 +72,7 @@ fun CustomChatPopupMenu(
             isChecked = disappearingChatsEnabled,
             isSwitchShow = true,
             onClick = {
-                onProfileClick()
+                onDisappearingChatsToggle(false)
                 onDismiss()
             }
         )
@@ -84,7 +82,7 @@ fun CustomChatPopupMenu(
             iconTint = Color.White,
             title = stringResource(Res.string.mood),
             onClick = {
-                onProfileClick()
+                onSetMoodClick()
                 onDismiss()
             }
         )
@@ -95,7 +93,7 @@ fun CustomChatPopupMenu(
             title = stringResource(Res.string.clear_chat),
             titleColor = AppColors.Delete,
             onClick = {
-                onProfileClick()
+                onClearChatClick()
                 onDismiss()
             }
         )

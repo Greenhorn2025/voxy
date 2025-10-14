@@ -19,7 +19,8 @@ import voxy.friend.chat.navigation.OnBoardingGraph
 fun PaywallContent(
     modifier: Modifier = Modifier,
     showBottomSheet: Boolean,
-    onStartTrialClick: () -> Unit
+    onStartTrialClick: () -> Unit,
+    onDismiss: () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(), topBar = {
@@ -56,7 +57,9 @@ fun PaywallContent(
 
             // Bottom Sheet
             if (showBottomSheet) {
-                OnBoardingGraph()
+                OnBoardingGraph(onDismiss = {
+                    onDismiss.invoke()
+                })
             }
         }
     }

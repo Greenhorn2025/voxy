@@ -1,11 +1,12 @@
 package voxy.friend.chat.ai.phonehint
 
+import android.app.Activity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.suspendCancellableCoroutine
-import voxy.friend.chat.ai.ActivityContextProvider
+import voxy.friend.chat.common.di.ActivityContextProvider
 import voxy.friend.chat.common.model.PhoneHintResult
 import voxy.friend.chat.source.PhoneHintDataSource
 import kotlin.concurrent.Volatile
@@ -45,14 +46,14 @@ class AndroidPhoneHintDataSource : PhoneHintDataSource {
             isRequestInProgress = true
             val request = GetPhoneNumberHintIntentRequest.builder().build()
 
-            val context = ActivityContextProvider.getActivity()
+            val context = ActivityContextProvider.instance.getActivity()
             if (context == null) {
                 isRequestInProgress = false
                 continuation.resume(PhoneHintResult.Error("No activity context available"))
                 return@suspendCancellableCoroutine
             }
 
-            Identity.getSignInClient(context)
+            Identity.getSignInClient(context as Activity)
                 .getPhoneNumberHintIntent(request)
                 .addOnSuccessListener { result ->
                     try {

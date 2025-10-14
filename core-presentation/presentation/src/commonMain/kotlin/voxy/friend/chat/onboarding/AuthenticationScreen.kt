@@ -20,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.painterResource
@@ -41,6 +43,8 @@ import voxy.core_presentation.presentation.generated.resources.Res
 import voxy.core_presentation.presentation.generated.resources.google_icon
 import voxy.core_presentation.presentation.generated.resources.logo
 import voxy.friend.chat.common.color.AppColors
+import voxy.friend.chat.otpless.OtplessState
+import voxy.friend.chat.viewmodel.OTPLessViewModel
 import voxy.friend.chat.viewmodel.PhoneHintViewModel
 
 @Composable
@@ -52,6 +56,22 @@ fun AuthenticationScreen(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val scope = rememberCoroutineScope()
+    val otplessViewModel = koinViewModel<OTPLessViewModel>()
+    val otplessState by otplessViewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(otplessState.otplessState) {
+        when (val state = otplessState.otplessState) {
+            is OtplessState.InitiateSuccess -> {
+                // Handle initiate success
+                println("OTP sent! Order ID: ${state.orderId}")
+            }
+            is OtplessState.Error -> {
+                // Handle error based on type
+                showToast(state.errorMessage)
+//                handleError(state)
+            }
+            else -> {}
+        }
+    }
 
     Column(
         modifier = modifier.imePadding(),
@@ -83,6 +103,7 @@ fun AuthenticationScreen(
                 keyboardController?.hide()
                 scope.launch {
                     delay(400)
+                    otplessViewModel.sendOtp(phoneNumber = state.phoneNumber, countryCode = "91")
                     onGetOtpClick.invoke(state.phoneNumber)
                 }
             },

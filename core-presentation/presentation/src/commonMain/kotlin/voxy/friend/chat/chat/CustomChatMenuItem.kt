@@ -10,20 +10,27 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
+import org.koin.compose.koinInject
 import voxy.friend.chat.common.color.AppColors
 import voxy.friend.chat.common.extension.DisplayIf
+import voxy.friend.chat.common.model.ChatUiEvent
+import voxy.friend.chat.viewmodel.ChatViewModel
 
 @Composable
 fun CustomChatMenuItem(
@@ -35,11 +42,14 @@ fun CustomChatMenuItem(
     isSwitchShow: Boolean = false,
     onClick: () -> Unit
 ) {
+    val chatViewModel = koinInject<ChatViewModel>()
+    val uiState by chatViewModel.state.collectAsStateWithLifecycle()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 8.sdp, vertical = 12.sdp),
+            .padding(horizontal = 12.sdp, vertical = 12.sdp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -82,8 +92,20 @@ fun CustomChatMenuItem(
         DisplayIf(isSwitchShow) {
             Spacer(modifier = Modifier.width(12.sdp))
             Switch(
-                checked = isChecked,
-                onCheckedChange = { },
+                checked = uiState.disappearingChatsEnabled,
+                onCheckedChange = { chatViewModel.handleEvent(ChatUiEvent.DisappearingChatsEnabled)},
+                thumbContent = if (uiState.disappearingChatsEnabled) {
+                    {
+                        Icon(
+                            imageVector = Icons.Filled.Check,
+                            contentDescription = null,
+                            tint = Color.Black,
+                            modifier = Modifier.size(SwitchDefaults.IconSize),
+                        )
+                    }
+                } else {
+                    null
+                },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = Color.White,
                     checkedTrackColor = Color(0xFF34C759),

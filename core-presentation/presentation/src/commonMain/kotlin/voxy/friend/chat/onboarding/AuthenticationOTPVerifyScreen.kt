@@ -10,15 +10,16 @@ import androidx.compose.ui.Modifier
 fun AuthenticationOTPVerifyScreen(
     modifier: Modifier = Modifier,
     phoneNumber : String,
-    onEditClick : (String) -> Unit = {}
+    onEditClick : (String) -> Unit = {},
+    onDismiss: () -> Unit = {}
 ) {
     AnimatedBottomSheet(
         value = true,
-        onDismissRequest = { /*TODO*/ },
+        onDismissRequest = { onDismiss() },
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primary,
         borderColor = MaterialTheme.colorScheme.outline
     ) {
-       OTPVerifyScreen(modifier, phoneNumber, onEditClick)
+       OTPVerifyScreen(modifier, phoneNumber,  onEditClick, { onDismiss.invoke() })
     }
 }

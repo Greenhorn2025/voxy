@@ -25,6 +25,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Ktor
+            api(projects.coreCache)
+            
             implementation(libs.kotlinx.serialization.json)
 
             implementation(compose.material3)
@@ -36,12 +38,14 @@ kotlin {
             api(libs.cmptoast)
             api(libs.navigation.compose)
 
+
             // Google Phone Hint
             implementation(libs.coil.compose)
         }
 
         androidMain.dependencies {
             // Android-specific dependencies if any
+            api(libs.truecaller.sdk)
         }
 
         iosMain.dependencies {

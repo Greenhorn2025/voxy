@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import io.github.aakira.napier.Napier.e
 import network.chaintech.sdpcomposemultiplatform.sdp
 import voxy.friend.chat.onboarding.AnimatedBottomSheet
 import voxy.friend.chat.onboarding.AuthenticationOTPVerifyScreen
@@ -17,7 +18,7 @@ import voxy.friend.chat.onboarding.AuthenticationScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OnBoardingGraph() {
+fun OnBoardingGraph(onDismiss: () -> Unit = {}) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -54,7 +55,10 @@ fun OnBoardingGraph() {
             val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
             AuthenticationOTPVerifyScreen(
                 phoneNumber = phoneNumber,
-                onEditClick = navController::toSignUp
+                onEditClick = navController::toSignUp,
+                onDismiss = {
+                    onDismiss.invoke()
+                }
             )
         }
     }

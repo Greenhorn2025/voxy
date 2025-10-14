@@ -2,11 +2,13 @@ package voxy.friend.chat.viewmodel
 
 import voxy.friend.chat.common.model.ChatUiEvent
 import voxy.friend.chat.common.model.ChatUiState
+import voxy.friend.chat.datastore.VoxyDataStoreImpl
 import voxy.friend.chat.network.NetworkMonitor
 
 class ChatViewModel(
-    networkMonitor: NetworkMonitor
-) : BaseViewModel<ChatUiState, ChatUiEvent>(networkMonitor) {
+    networkMonitor: NetworkMonitor,
+    dataStore: VoxyDataStoreImpl
+) : BaseViewModel<ChatUiState, ChatUiEvent>(networkMonitor, dataStore) {
 
     fun handleEvent(event: ChatUiEvent) {
         when (event) {
@@ -27,6 +29,9 @@ class ChatViewModel(
             }
             is ChatUiEvent.ShowMoreMenu -> {
                 showMoreOptions()
+            }
+            is ChatUiEvent.DisappearingChatsEnabled ->{
+                updateState { it.copy(disappearingChatsEnabled = !it.disappearingChatsEnabled) }
             }
             is ChatUiEvent.HideMoreMenu -> {
                 hideMoreOptions()

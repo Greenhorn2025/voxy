@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +27,53 @@ import org.koin.compose.viewmodel.koinViewModel
 import voxy.core_presentation.presentation.generated.resources.Res
 import voxy.core_presentation.presentation.generated.resources.logo
 import voxy.friend.chat.common.color.AppColors
+import voxy.friend.chat.extension.getMapValue
+import voxy.friend.chat.extension.getStringValue
+import voxy.friend.chat.otpless.OtplessState
+import voxy.friend.chat.viewmodel.OTPLessViewModel
 import voxy.friend.chat.viewmodel.PhoneHintViewModel
 
 @Composable
-fun OTPVerifyScreen(modifier : Modifier = Modifier, phoneNumber : String, onEditClick : (String) -> Unit = {}) {
+fun OTPVerifyScreen(
+    modifier: Modifier = Modifier,
+    phoneNumber: String,
+    onEditClick: (String) -> Unit = {},
+    onDismiss: () -> Unit = {}
+) {
     val phoneHintViewModel = koinViewModel<PhoneHintViewModel>()
     val state by phoneHintViewModel.state.collectAsStateWithLifecycle()
+
+    val otplessViewModel = koinViewModel<OTPLessViewModel>()
+    val otplessState by otplessViewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(otplessState.otplessState) {
+        when (val state = otplessState.otplessState) {
+            is OtplessState.InitiateSuccess -> {
+            }
+
+            is OtplessState.VerifySuccess -> {
+                // Handle verified success
+                otplessViewModel.verifyOTPFromBE(
+                    token = state.data.getMapValue("data")?.getStringValue("token") ?: ""
+                )
+            }
+
+            is OtplessState.Error -> {
+                // Handle error based on type
+                showToast(state.errorMessage)
+            }
+
+            else -> {}
+        }
+    }
+
+    LaunchedEffect(otplessState.otpVerified) {
+        if (otplessState.otpVerified) {
+            showToast("OTP verified successfully")
+            onDismiss()
+        }
+    }
+
 
     Column(
         modifier = modifier.fillMaxWidth().imePadding(),
@@ -49,7 +91,8 @@ fun OTPVerifyScreen(modifier : Modifier = Modifier, phoneNumber : String, onEdit
         Text(
             text = "Enter OTP",
             color = AppColors.OnPrimary,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(start = 16.sdp, bottom = 5.sdp),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+                .padding(start = 16.sdp, bottom = 5.sdp),
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -67,7 +110,7 @@ fun OTPVerifyScreen(modifier : Modifier = Modifier, phoneNumber : String, onEdit
 
         OTPResendTimer(
             onResendClick = {
-                showToast("Resend API Called")
+                otplessViewModel.sendOtp(phoneNumber, "91")
             }
         )
 
@@ -75,7 +118,7 @@ fun OTPVerifyScreen(modifier : Modifier = Modifier, phoneNumber : String, onEdit
 
         Button(
             onClick = {
-                showToast("Submit OTP Clicked")
+                otplessViewModel.verifyOTPByOTPLess(state.otpNumber, phoneNumber, "91")
             },
             modifier = Modifier
                 .padding(vertical = 15.sdp)

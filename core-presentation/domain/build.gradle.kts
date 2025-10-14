@@ -26,6 +26,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.coreCommon)
+            api(projects.coreNetwork)
 
             api(libs.napier)
             implementation(libs.koin.viewmodel)
@@ -46,6 +47,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(compose.preview)
             implementation(libs.logger)
+//            implementation(libs.truecaller.sdk)
         }
 
         iosMain.dependencies {

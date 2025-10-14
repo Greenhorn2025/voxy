@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -24,15 +25,27 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // Ktor
+            // Koin
             implementation(libs.kotlinx.serialization.json)
             implementation(projects.coreCommon)
+            implementation(projects.coreCache)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+
+            //Ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+
+            implementation(libs.koin.core)
         }
 
         androidMain.dependencies {
             // Android-specific dependencies if any
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.library.no.op)
+
         }
 
         iosMain.dependencies {
@@ -56,7 +69,18 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -66,8 +90,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 

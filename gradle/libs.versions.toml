@@ -13,12 +13,14 @@ androidx-testExt = "1.3.0"
 coilNetworkKtor3 = "3.3.0"
 composeMultiplatform = "1.9.0"
 coreSplashscreen = "1.0.1"
+datastorePreferences = "1.1.7"
 junit = "4.13.2"
 kmpObservableviewmodelCore = "1.0.0-BETA-14"
 kotlin = "2.2.20"
-ktor = "3.3.0"
+ktor = "3.3.1"
 koin = "4.1.1"
 kotlinx-serialization = "1.9.0"
+libraryNoOp = "4.2.0"
 logger = "2.2.0"
 material = "1.13.0"
 otplessHeadlessSdk = "0.3.6"
@@ -26,16 +28,22 @@ playServicesAuth = "21.4.0"
 sdpSspComposeMultiplatform = "1.0.7"
 navigation = "2.9.0"
 napier = "2.7.1"
+truecallerSdk = "3.2.1"
 
 
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 cmptoast = { module = "network.chaintech:cmptoast", version.ref = "sdpSspComposeMultiplatform" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilNetworkKtor3" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coilNetworkKtor3" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkKtor3" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics-ndk = { module = "com.google.firebase:firebase-crashlytics-ndk" }
+firebase-perf = { module = "com.google.firebase:firebase-perf" }
+library-no-op = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "libraryNoOp" }
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier" }
 
 logger = { module = "com.orhanobut:logger", version.ref = "logger" }
@@ -54,6 +62,7 @@ androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecyc
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 # Ktor
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -74,8 +83,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 otpless-headless-sdk = { module = "io.github.otpless-tech:otpless-headless-sdk", version.ref = "otplessHeadlessSdk" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 sdp-ssp-compose-multiplatform = { module = "network.chaintech:sdp-ssp-compose-multiplatform", version.ref = "sdpSspComposeMultiplatform" }
+truecaller-sdk = { module = "com.truecaller.android.sdk:truecaller-sdk", version.ref = "truecallerSdk" }
 
 [plugins]
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version = "2.2.20" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }

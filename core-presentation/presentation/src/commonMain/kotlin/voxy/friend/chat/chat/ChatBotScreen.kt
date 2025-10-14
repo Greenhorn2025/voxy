@@ -14,7 +14,7 @@ import voxy.friend.chat.emoji.EmojiBottomSheet
 import voxy.friend.chat.viewmodel.ChatViewModel
 
 @Composable
-fun ChatBotScreen(modifier: Modifier = Modifier) {
+fun ChatBotScreen(modifier: Modifier = Modifier, onStartTrialClick: () -> Unit = {}) {
     val chatViewModel = koinInject<ChatViewModel>()
     val uiState by chatViewModel.state.collectAsStateWithLifecycle()
 
@@ -32,6 +32,9 @@ fun ChatBotScreen(modifier: Modifier = Modifier) {
                 onDisappearingChatsToggle = { /* Handle toggle */ },
                 onSetMoodClick = { /* Handle set mood click */ },
                 onClearChatClick = { /* Handle clear chat click */ },
+                onStartTrialClick = {
+                    onStartTrialClick.invoke()
+                },
                 disappearingChatsEnabled = uiState.disappearingChatsEnabled // Example state
             )
         }, bottomBar = {

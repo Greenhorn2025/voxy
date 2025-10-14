@@ -4,3 +4,4 @@ import androidx.navigation.NavController
 
 fun NavController.toSignUp(phoneNumber: String = "") = navigate(Destinations.OnBoardingScreen.createRoute(phoneNumber))
 fun NavController.toVerify(phoneNumber : String) = navigate(Destinations.VerifyOTPScreen.createRoute(phoneNumber))
+fun NavController.navigateToSubscriptionScreen() = navigate(Destinations.SubscriptionScreen.route)

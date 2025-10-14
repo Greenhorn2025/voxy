@@ -21,10 +21,14 @@ fun MainGraph(
         startDestination = startDestinations.route,
     ) {
         composable(route = Destinations.BotChatScreen.route) {
-            ChatBotScreen(modifier)
+            ChatBotScreen(modifier, onStartTrialClick = {
+                navController.navigateToSubscriptionScreen()
+            })
         }
         composable(route = Destinations.SubscriptionScreen.route) {
-            PaywallScreen(modifier)
+            PaywallScreen(modifier, onDismiss = {
+                navController.popBackStack()
+            })
         }
     }
 }

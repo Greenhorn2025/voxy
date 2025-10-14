@@ -7,12 +7,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import voxy.friend.chat.datastore.VoxyDataStoreImpl
+import voxy.friend.chat.extension.saveObject
 import voxy.friend.chat.network.NetworkInfo
 import voxy.friend.chat.network.NetworkMonitor
 import voxy.friend.chat.network.NetworkState
 
 abstract class BaseViewModel<STATE, SIDE_EFFECT>(
-    private val networkMonitor: NetworkMonitor
+    private val networkMonitor: NetworkMonitor,
+    private val dataStore: VoxyDataStoreImpl
 ) : ViewModel() {
 
     init {
