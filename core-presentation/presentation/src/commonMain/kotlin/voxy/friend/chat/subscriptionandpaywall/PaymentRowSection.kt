@@ -29,11 +29,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import multiplatform.network.cmptoast.showToast
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import network.chaintech.sdpcomposemultiplatform.sdp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 import voxy.friend.chat.common.color.AppColors
+import voxy.friend.chat.viewmodel.SharedViewModel
 
 @Composable
 fun PaymentRowSection(
@@ -80,8 +83,8 @@ fun PaymentRowSection(
 
             Button(
                 onClick = {
+                    viewModel.checkUserLoggedInState()
                     onStartTrialClick()
-                    showToast("Starting trial with")
                 },
                 modifier = Modifier.height(52.dp),
                 colors = ButtonDefaults.buttonColors(

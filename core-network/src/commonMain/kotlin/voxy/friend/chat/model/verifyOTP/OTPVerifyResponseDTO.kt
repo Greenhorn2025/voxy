@@ -8,4 +8,13 @@ data class OTPVerifyResponseDTO(
     val jwt : String?,
     val rft : String?,
     val userInfo : UserInfo?,
-)
+){
+    companion object {
+        fun empty() = OTPVerifyResponseDTO(
+            id = null,
+            jwt = null,
+            rft = null,
+            userInfo = null
+        )
+    }
+}

@@ -4,7 +4,7 @@ import voxy.friend.chat.navigation.Destinations
 
 data class HomeState(
     val isLoading: Boolean = false,
-    val showBottomSheet : Boolean = false,
+    val showBottomSheet : Boolean = true,
     val destinations: Destinations = Destinations.BotChatScreen
 )
 

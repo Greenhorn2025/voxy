@@ -16,7 +16,7 @@ fun PaywallScreen(modifier: Modifier = Modifier, onDismiss: () -> Unit = {}) {
 
     PaywallContent(
         modifier = modifier,
-        showBottomSheet = uiState.showBottomSheet,
+        showBottomSheet = !uiState.showBottomSheet,
         onStartTrialClick = { viewModel.checkUserLoggedInState() },
         onDismiss = {
             onDismiss.invoke()
