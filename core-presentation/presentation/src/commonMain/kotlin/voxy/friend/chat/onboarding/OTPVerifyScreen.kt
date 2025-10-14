@@ -16,10 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import multiplatform.network.cmptoast.showToast
 import network.chaintech.sdpcomposemultiplatform.sdp
 import org.jetbrains.compose.resources.painterResource
@@ -49,6 +52,7 @@ fun OTPVerifyScreen(
     LaunchedEffect(otplessState.otplessState) {
         when (val state = otplessState.otplessState) {
             is OtplessState.InitiateSuccess -> {
+
             }
 
             is OtplessState.VerifySuccess -> {
@@ -67,11 +71,16 @@ fun OTPVerifyScreen(
         }
     }
 
-    LaunchedEffect(otplessState.otpVerified) {
-        if (otplessState.otpVerified) {
-            showToast("OTP verified successfully")
-            onDismiss()
-        }
+    LaunchedEffect(Unit) {
+        snapshotFlow { otplessState.otpVerified }
+            .distinctUntilChanged()
+            .filter { it }
+            .collect { otpVerified ->
+                if (otpVerified) {
+                    showToast("OTP verified successfully")
+                    onDismiss.invoke()
+                }
+            }
     }
 
 

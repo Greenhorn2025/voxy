@@ -1,7 +1,6 @@
 package voxy.friend.chat.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import voxy.friend.chat.auth.TrueCallerRepository
 import voxy.friend.chat.auth.TruecallerConfig
@@ -11,9 +10,7 @@ import voxy.friend.chat.common.model.signup.SignUpSideEffect
 import voxy.friend.chat.common.model.signup.SignUpUiState
 import voxy.friend.chat.constants.PreferenceKeys.SIGNUP_USER_DTO
 import voxy.friend.chat.datastore.VoxyDataStoreImpl
-import voxy.friend.chat.extension.getObject
 import voxy.friend.chat.extension.saveObject
-import voxy.friend.chat.model.signup.SignUpResponse
 import voxy.friend.chat.network.NetworkMonitor
 import voxy.friend.chat.usecase.OnBoardingUseCase
 
@@ -63,16 +60,7 @@ class OnBoardingViewModel(
             }
         }
     }
-
-    fun checkExistingUser() = viewModelScope.launch {
-        dataStore.getObject<SignUpResponse>(SIGNUP_USER_DTO).collectLatest { existingUser ->
-            if (existingUser == null) {
-                signUp()
-            }
-        }
-    }
-
-    private fun signUp() = viewModelScope.launch {
+    fun initializeSession() = viewModelScope.launch {
         val result = onBoardingUseCase.invoke()
         result.onSuccess { signUpResponse ->
             dataStore.saveObject(

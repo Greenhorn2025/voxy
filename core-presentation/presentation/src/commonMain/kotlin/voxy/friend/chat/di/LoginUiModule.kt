@@ -26,7 +26,15 @@ fun getViewModelModule() = module {
             headerProvider = get()
         )
     }
-    viewModel { OTPLessViewModel(networkMonitor = get(), dataStore = get(), otplessManager = get(), onBoardingUseCase = get()) }
+    viewModel {
+        OTPLessViewModel(
+            networkMonitor = get(),
+            dataStore = get(),
+            otplessManager = get(),
+            onBoardingUseCase = get(),
+            headerProvider = get()
+        )
+    }
     viewModel { SharedViewModel(monitor = get(), dataStore = get()) }
     viewModel { ChatViewModel(networkMonitor = get(), dataStore = get()) }
 }

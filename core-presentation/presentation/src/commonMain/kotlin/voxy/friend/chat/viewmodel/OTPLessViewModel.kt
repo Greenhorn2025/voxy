@@ -2,6 +2,7 @@ package voxy.friend.chat.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import voxy.friend.chat.client.HeaderProvider
 import voxy.friend.chat.constants.PreferenceKeys.LOGGED_IN_USER_DTO
 import voxy.friend.chat.datastore.VoxyDataStoreImpl
 import voxy.friend.chat.extension.getMapValue
@@ -19,7 +20,8 @@ class OTPLessViewModel(
     networkMonitor: NetworkMonitor,
     private val dataStore: VoxyDataStoreImpl,
     private val otplessManager: OTPLessManager,
-    private val onBoardingUseCase: OnBoardingUseCase
+    private val onBoardingUseCase: OnBoardingUseCase,
+    private val headerProvider: HeaderProvider
 ) : BaseViewModel<OTPLessResponseData, OtplessState>(networkMonitor, dataStore) {
 
     private var currentRequestData: OTPlessRequestData? = null
@@ -85,6 +87,8 @@ class OTPLessViewModel(
         onBoardingUseCase.verifyOTP(token).onSuccess {
             dataStore.saveObject(LOGGED_IN_USER_DTO, it)
             dataStore.saveIsUserLoggedIn(true)
+            headerProvider.setAuthToken(it.jwt.orEmpty())
+            updateState { state -> state.copy(otpVerified = true)}
         }.onFailure {
 
         }

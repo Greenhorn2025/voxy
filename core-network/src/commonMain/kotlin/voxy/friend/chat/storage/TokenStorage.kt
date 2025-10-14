@@ -1,10 +1,10 @@
 package voxy.friend.chat.storage
 
 interface TokenStorage {
-    fun saveToken(token: String)
-    fun getToken(): String?
-    fun clearToken()
-    fun saveRefreshToken(token: String)
-    fun getRefreshToken(): String?
-    fun clearRefreshToken()
+    suspend fun saveToken(token: String)
+    suspend fun getToken(): String?
+    suspend fun clearToken()
+    suspend fun saveRefreshToken(token: String)
+    suspend fun getRefreshToken(): String?
+    suspend fun clearRefreshToken()
 }

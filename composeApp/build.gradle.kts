@@ -100,20 +100,50 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-        }
-        getByName("release") {
-            isMinifyEnabled = false
+
+    signingConfigs {
+        create("release") {
+            if (project.hasProperty("MYAPP_UPLOAD_STORE_FILE")) {
+                storeFile = file(project.property("MYAPP_UPLOAD_STORE_FILE") as String)
+                storePassword = project.property("MYAPP_UPLOAD_STORE_PASSWORD") as String
+                keyAlias = project.property("MYAPP_UPLOAD_KEY_ALIAS") as String
+                keyPassword = project.property("MYAPP_UPLOAD_KEY_PASSWORD") as String
+            }
         }
     }
+
+    buildTypes {
+        getByName("debug") {
+            isDebuggable = true
+            isMinifyEnabled = false
+        }
+        release {
+            isDebuggable = true
+            isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

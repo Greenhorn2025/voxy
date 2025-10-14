@@ -6,5 +6,6 @@ sealed class SignUpSideEffect {
     object Loading : SignUpSideEffect()
     data class Success(val phoneNumber: String, val name: String) : SignUpSideEffect()
     data class Error(val message: String) : SignUpSideEffect()
+    data class HasSession(val data: Any) : SignUpSideEffect()
     object Cancelled : SignUpSideEffect()
 }

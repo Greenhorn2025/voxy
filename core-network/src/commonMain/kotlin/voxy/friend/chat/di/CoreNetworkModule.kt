@@ -22,7 +22,8 @@ val networkModule = module {
 
     single<HeaderProvider> {
         DefaultHeaderProvider(
-            tokenStorage = get()
+            tokenStorage = get(),
+            coroutineScope = get()
         )
     }
 

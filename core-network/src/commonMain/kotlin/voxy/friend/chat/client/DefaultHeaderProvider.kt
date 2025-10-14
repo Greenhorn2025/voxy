@@ -1,12 +1,28 @@
 package voxy.friend.chat.client
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import voxy.friend.chat.constants.DeviceIdentifier
 import voxy.friend.chat.network.getPlatformName
 import voxy.friend.chat.storage.TokenStorage
 
 class DefaultHeaderProvider(
-    private val tokenStorage: TokenStorage
+    private val tokenStorage: TokenStorage,
+    coroutineScope: CoroutineScope
 ) : HeaderProvider {
+
+    private var cachedToken: String? = null
+    private var cachedHeaders: Map<String, String> = emptyMap()
+
+    init {
+        // Load token and update cached headers
+        coroutineScope.launch {
+            tokenStorage.getToken()?.let { token ->
+                cachedToken = token
+                updateCachedHeaders()
+            }
+        }
+    }
 
     companion object {
         private const val HEADER_AUTHORIZATION = "Authorization"
@@ -18,15 +34,17 @@ class DefaultHeaderProvider(
         private const val CONTENT_TYPE_JSON = "application/json"
     }
 
-    override fun getAuthToken(): String? {
+    override suspend fun getAuthToken(): String? {
         return tokenStorage.getToken()
     }
 
-    override fun setAuthToken(token: String) {
+    override suspend fun setAuthToken(token: String) {
+        cachedToken = token
         tokenStorage.saveToken(token)
     }
 
-    override fun clearAuthToken() {
+    override suspend fun clearAuthToken() {
+        cachedToken = null
         tokenStorage.clearToken()
     }
 
@@ -35,26 +53,28 @@ class DefaultHeaderProvider(
     }
 
     override fun getHeaders(): Map<String, String> {
+        return cachedHeaders.ifEmpty {
+            buildHeaders()
+        }
+    }
+
+    private fun buildHeaders(): Map<String, String> {
         val headers = mutableMapOf<String, String>()
 
-        // Add auth token if available
-        getAuthToken()?.let { token ->
-            headers[HEADER_AUTHORIZATION] = "Bearer $token"
+        cachedToken?.let { token ->
+            headers["Authorization"] = "Bearer $token"
         }
 
-        // Add device ID
-        headers[HEADER_DEVICE_ID] = getDeviceId()
-
-        // Add content type
-        headers[HEADER_CONTENT_TYPE] = getContentType()
-
-        // Add app version
-        headers[HEADER_APP_VERSION] = getAppVersion()
-
-        // Add platform
-        headers[HEADER_PLATFORM] = getPlatform()
+        headers["deviceId"] = getDeviceId()
+        headers["Content-Type"] = getContentType()
+        headers["App-Version"] = getAppVersion()
+        headers["Platform"] = getPlatformName()
 
         return headers
+    }
+
+    private fun updateCachedHeaders() {
+        cachedHeaders = buildHeaders()
     }
 
     override fun getContentType(): String {

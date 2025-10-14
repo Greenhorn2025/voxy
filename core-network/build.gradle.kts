@@ -45,7 +45,7 @@ kotlin {
             // Android-specific dependencies if any
             implementation(libs.ktor.client.okhttp)
             implementation(libs.library.no.op)
-
+            implementation(libs.androidx.datastore.preferences)
         }
 
         iosMain.dependencies {

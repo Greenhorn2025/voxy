@@ -1,10 +1,13 @@
 package voxy.friend.chat.storage
 
+import kotlinx.coroutines.flow.Flow
+
 expect class SecureStorage {
-    fun save(key: String, value: String)
-    fun get(key: String): String?
-    fun remove(key: String)
-    fun clear()
+    suspend fun save(key: String, value: String)
+    suspend fun get(key: String): String?
+    suspend fun remove(key: String)
+    suspend fun clear()
+    fun getFlow(key: String): Flow<String?>
 }
 
 class DefaultTokenStorage(private val secureStorage: SecureStorage) : TokenStorage {
@@ -13,27 +16,27 @@ class DefaultTokenStorage(private val secureStorage: SecureStorage) : TokenStora
         private const val KEY_REFRESH_TOKEN = "refresh_token"
     }
 
-    override fun saveToken(token: String) {
+    override suspend fun saveToken(token: String) {
         secureStorage.save(KEY_AUTH_TOKEN, token)
     }
 
-    override fun getToken(): String? {
+    override suspend fun getToken(): String? {
         return secureStorage.get(KEY_AUTH_TOKEN)
     }
 
-    override fun clearToken() {
+    override suspend fun clearToken() {
         secureStorage.remove(KEY_AUTH_TOKEN)
     }
 
-    override fun saveRefreshToken(token: String) {
+    override suspend fun saveRefreshToken(token: String) {
         secureStorage.save(KEY_REFRESH_TOKEN, token)
     }
 
-    override fun getRefreshToken(): String? {
+    override suspend fun getRefreshToken(): String? {
         return secureStorage.get(KEY_REFRESH_TOKEN)
     }
 
-    override fun clearRefreshToken() {
+    override suspend fun clearRefreshToken() {
         secureStorage.remove(KEY_REFRESH_TOKEN)
     }
 }

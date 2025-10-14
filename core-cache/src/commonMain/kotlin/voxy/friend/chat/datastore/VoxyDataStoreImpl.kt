@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import okio.Path.Companion.toPath
 import voxy.friend.chat.interfaces.VoxyDataStore
@@ -66,6 +67,16 @@ class VoxyDataStoreImpl(
     suspend fun saveNotificationPreference(enabled: Boolean) {
         dataStore.edit {
             it[NOTIFICATIONS_ENABLED] = enabled
+        }
+    }
+
+    suspend fun <T> hasValidSession(
+        key: Preferences.Key<T>,
+        validator: (T?) -> Boolean = { it != null }
+    ): Boolean {
+        return dataStore.data.first().let { preferences ->
+            val value = preferences[key]
+            validator(value)
         }
     }
 

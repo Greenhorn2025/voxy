@@ -5,22 +5,43 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import voxy.friend.chat.constants.PreferenceKeys.LOGGED_IN_USER_DTO
 import voxy.friend.chat.datastore.VoxyDataStoreImpl
-import voxy.friend.chat.extension.saveObject
+import voxy.friend.chat.extension.getObject
+import voxy.friend.chat.model.verifyOTP.OTPVerifyResponseDTO
 import voxy.friend.chat.network.NetworkInfo
 import voxy.friend.chat.network.NetworkMonitor
 import voxy.friend.chat.network.NetworkState
 
 abstract class BaseViewModel<STATE, SIDE_EFFECT>(
     private val networkMonitor: NetworkMonitor,
-    private val dataStore: VoxyDataStoreImpl
+    dataStore: VoxyDataStoreImpl
 ) : ViewModel() {
 
     init {
         startNetworkMonitoring()
     }
+
+    val isLoggedIn: StateFlow<Boolean> = dataStore
+        .readIsUserLoggedInState
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
+
+    val userData: StateFlow<OTPVerifyResponseDTO?> = dataStore
+        .getObject<OTPVerifyResponseDTO>(LOGGED_IN_USER_DTO)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
+
     abstract fun setDefaultState(): STATE
 
     private val _state: MutableStateFlow<STATE> = MutableStateFlow(setDefaultState())

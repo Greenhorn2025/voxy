@@ -49,6 +49,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.logger)
             implementation(libs.koin.android)
+            implementation(libs.androidx.datastore.preferences)
         }
 
         iosMain.dependencies {

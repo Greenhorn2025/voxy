@@ -37,7 +37,7 @@ class VoxyMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         contextProvider.setActivity(this)
-        onBoardingViewModel.checkExistingUser()
+        onBoardingViewModel.initializeSession()
         setupOTPlessSDK()
         AndroidPhoneHintDataSource.getInstance()
         AndroidPhoneHintDataSource.setActivityResultLauncher(phoneHintLauncher)

@@ -1,17 +1,26 @@
 package voxy.friend.chat.storage
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import androidx.core.content.edit
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
+private val Context.secureDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "voxy_secure_prefs"
+)
 actual class SecureStorage(context: Context) {
 
     companion object {
@@ -22,10 +31,7 @@ actual class SecureStorage(context: Context) {
         private const val GCM_TAG_LENGTH = 128
     }
 
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
-        PREFS_NAME,
-        Context.MODE_PRIVATE
-    )
+    private val dataStore: DataStore<Preferences> = context.secureDataStore
 
     private val keyStore: KeyStore by lazy {
         KeyStore.getInstance(ANDROID_KEYSTORE).apply {
@@ -85,18 +91,28 @@ actual class SecureStorage(context: Context) {
         return String(decryptedBytes, Charsets.UTF_8)
     }
 
-    actual fun save(key: String, value: String) {
+    actual suspend fun save(key: String, value: String) {
         try {
             val encrypted = encrypt(value)
-            sharedPreferences.edit { putString(key, encrypted) }
+            val preferencesKey = stringPreferencesKey(key)
+            dataStore.edit { preferences ->
+                preferences[preferencesKey] = encrypted
+            }
         } catch (e: Exception) {
             // Fallback to unencrypted if encryption fails
-            sharedPreferences.edit { putString(key, value) }
+            val preferencesKey = stringPreferencesKey(key)
+            dataStore.edit { preferences ->
+                preferences[preferencesKey] = value
+            }
         }
     }
 
-    actual fun get(key: String): String? {
-        val storedValue = sharedPreferences.getString(key, null) ?: return null
+    actual suspend fun get(key: String): String? {
+        val preferencesKey = stringPreferencesKey(key)
+        val storedValue = dataStore.data.map { preferences ->
+            preferences[preferencesKey]
+        }.first() ?: return null
+
         return try {
             decrypt(storedValue)
         } catch (e: Exception) {
@@ -105,11 +121,30 @@ actual class SecureStorage(context: Context) {
         }
     }
 
-    actual fun remove(key: String) {
-        sharedPreferences.edit { remove(key) }
+    actual suspend fun remove(key: String) {
+        val preferencesKey = stringPreferencesKey(key)
+        dataStore.edit { preferences ->
+            preferences.remove(preferencesKey)
+        }
     }
 
-    actual fun clear() {
-        sharedPreferences.edit { clear() }
+    actual suspend fun clear() {
+        dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
+    actual fun getFlow(key: String): Flow<String?> {
+        val preferencesKey = stringPreferencesKey(key)
+        return dataStore.data.map { preferences ->
+            preferences[preferencesKey]?.let { encryptedValue ->
+                try {
+                    decrypt(encryptedValue)
+                } catch (e: Exception) {
+                    // If decryption fails, return the value as-is
+                    encryptedValue
+                }
+            }
+        }
     }
 }
