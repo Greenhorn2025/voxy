@@ -76,5 +76,13 @@ fun MessageStatusIcon(status: MessageStatus) {
                 modifier = Modifier.size(14.dp)
             )
         }
+
+        MessageStatus.PENDING -> {
+            CircularProgressIndicator(
+                modifier = Modifier.size(12.dp),
+                color = Color.White.copy(alpha = 0.5f),
+                strokeWidth = 1.5.dp
+            )
+        }
     }
 }

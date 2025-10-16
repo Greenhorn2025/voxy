@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -20,6 +23,10 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { _ ->
+    }
+
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
     }
 
     sourceSets {
@@ -38,14 +45,21 @@ kotlin {
             api(libs.cmptoast)
             api(libs.navigation.compose)
 
-
+            implementation(libs.koin.core)
             // Google Phone Hint
             implementation(libs.coil.compose)
+
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
 
         androidMain.dependencies {
             // Android-specific dependencies if any
             api(libs.truecaller.sdk)
+            implementation(libs.androidx.work.runtime)
+            implementation(libs.koin.android)
         }
 
         iosMain.dependencies {
@@ -56,6 +70,10 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+}
+room {
+    schemaDirectory("$projectDir/schemas")
+    generateKotlin = true
 }
 
 android {
@@ -86,6 +104,14 @@ android {
 
 
 dependencies {
+    //KSP for room
+//    add("kspAndroid", "androidx.room:room-compiler:2.6.1")
+    add("kspCommonMainMetadata", libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -36,7 +36,13 @@ fun getViewModelModule() = module {
         )
     }
     viewModel { SharedViewModel(monitor = get(), dataStore = get()) }
-    viewModel { ChatViewModel(networkMonitor = get(), dataStore = get()) }
+    viewModel {
+        ChatViewModel(
+            networkMonitor = get(),
+            dataStore = get(),
+            chatMessageUseCase = get()
+        )
+    }
 }
 
 expect val platformAuthModule: Module

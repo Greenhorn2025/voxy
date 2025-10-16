@@ -32,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +43,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import network.chaintech.sdpcomposemultiplatform.sdp
@@ -57,14 +57,15 @@ fun BottomMessageInput(
     modifier: Modifier = Modifier,
     message: String = "",
     onMessageChange: (String) -> Unit = {},
-    onSendMessage: () -> Unit = {},
-    onEmojiClick: () -> Unit = {},
+    onSendMessage: suspend (String) -> Unit = {},
+    onEmojiClick: suspend () -> Unit = {},
     placeholder: String = "Message",
     enabled: Boolean = true
 ) {
     var textState by remember { mutableStateOf(message) }
     val focusRequester = remember { FocusRequester() }
     var isSending by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     // Sync with external message state
     LaunchedEffect(message) {
@@ -111,7 +112,9 @@ fun BottomMessageInput(
                 ) {
                     // Emoji button inside input
                     Surface(
-                        onClick = onEmojiClick,
+                        onClick = {
+                            scope.launch { onEmojiClick.invoke() }
+                        },
                         modifier = Modifier
                             .size(20.sdp)
                             .align(Alignment.CenterVertically),
@@ -150,14 +153,12 @@ fun BottomMessageInput(
                             onSend = {
                                 if (textState.isNotBlank() && !isSending) {
                                     isSending = true
-                                    onSendMessage()
+                                    scope.launch { onSendMessage(textState) }
 
-                                    // Delay clearing text and resetting state to prevent flicker
-                                    MainScope().launch {
-                                        delay(100) // Small delay to prevent keyboard flicker
+                                    scope.launch {
+                                        delay(100)
                                         textState = ""
                                         isSending = false
-                                        // Don't hide keyboard immediately, let it stay focused
                                     }
                                 }
                             }
@@ -210,10 +211,10 @@ fun BottomMessageInput(
                     onClick = {
                         if (textState.isNotBlank() && !isSending) {
                             isSending = true
-                            onSendMessage()
+                            scope.launch { onSendMessage(textState) }
 
                             // Handle send with proper state management
-                            MainScope().launch {
+                            scope.launch {
                                 delay(100)
                                 textState = ""
                                 isSending = false

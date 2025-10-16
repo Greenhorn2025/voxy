@@ -8,7 +8,8 @@ import voxy.friend.chat.storage.TokenStorage
 
 class DefaultHeaderProvider(
     private val tokenStorage: TokenStorage,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    private val isCanary : Boolean = false
 ) : HeaderProvider {
 
     private var cachedToken: String? = null
@@ -69,6 +70,7 @@ class DefaultHeaderProvider(
         headers["Content-Type"] = getContentType()
         headers["App-Version"] = getAppVersion()
         headers["Platform"] = getPlatformName()
+        headers["iscanary"] = isCanary.toString()
 
         return headers
     }

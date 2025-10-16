@@ -24,24 +24,24 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import voxy.friend.chat.common.enum.MessageStatus
-import voxy.friend.chat.common.model.Message
+import voxy.friend.chat.common.model.chat.MessageEntity
 
 @Composable
-fun ChatBubble(modifier: Modifier, maxWidth: Dp, message: Message, onRetryClick: () -> Unit) {
+fun ChatBubble(modifier: Modifier, maxWidth: Dp, message: MessageEntity, onRetryClick: () -> Unit) {
     Column(
         modifier = modifier,
-        horizontalAlignment = if (message.isSender) Alignment.End else Alignment.Start
+        horizontalAlignment = if (message.data.isSender) Alignment.End else Alignment.Start
     ) {
         Row(
             modifier = Modifier
                 .widthIn(max = maxWidth)
                 .padding(vertical = 2.dp),
-            horizontalArrangement = if (message.isSender) Arrangement.End else Arrangement.Start
+            horizontalArrangement = if (message.data.isSender) Arrangement.End else Arrangement.Start
         ) {
             Box(
                 modifier = Modifier
                     .background(
-                        brush = if (message.isSender) {
+                        brush = if (message.data.isSender) {
                             Brush.horizontalGradient(
                                 colors = listOf(Color(0xFF4A5568), Color(0xFF4A5568))
                             )
@@ -53,15 +53,15 @@ fun ChatBubble(modifier: Modifier, maxWidth: Dp, message: Message, onRetryClick:
                         shape = RoundedCornerShape(
                             topStart = 18.dp,
                             topEnd = 18.dp,
-                            bottomStart = if (message.isSender) 18.dp else 4.dp,
-                            bottomEnd = if (message.isSender) 4.dp else 18.dp
+                            bottomStart = if (message.data.isSender) 18.dp else 4.dp,
+                            bottomEnd = if (message.data.isSender) 4.dp else 18.dp
                         )
                     )
                     .padding(horizontal = 14.dp, vertical = 10.dp)
             ) {
                 Column {
                     Text(
-                        text = message.text,
+                        text = message.data.msg,
                         color = Color.White,
                         fontSize = 16.sp,
                         lineHeight = 22.sp
@@ -75,14 +75,14 @@ fun ChatBubble(modifier: Modifier, maxWidth: Dp, message: Message, onRetryClick:
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = message.time,
+                            text = message.data.cid.toString(),
                             color = Color.White.copy(alpha = 0.5f),
                             fontSize = 12.sp
                         )
 
-                        if (message.isSender) {
+                        if (message.data.isSender) {
                             Spacer(modifier = Modifier.width(4.dp))
-                            MessageStatusIcon(message.status)
+                            MessageStatusIcon(message.data.sts)
                         }
                     }
                 }
@@ -90,7 +90,7 @@ fun ChatBubble(modifier: Modifier, maxWidth: Dp, message: Message, onRetryClick:
         }
 
         // Failed message indicator
-        if (message.status == MessageStatus.FAILED && message.isSender) {
+        if (message.data.sts == MessageStatus.FAILED && message.data.isSender) {
             Row(
                 modifier = Modifier
                     .padding(top = 4.dp)

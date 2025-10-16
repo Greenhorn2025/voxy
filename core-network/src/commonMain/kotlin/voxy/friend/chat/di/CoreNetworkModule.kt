@@ -23,7 +23,8 @@ val networkModule = module {
     single<HeaderProvider> {
         DefaultHeaderProvider(
             tokenStorage = get(),
-            coroutineScope = get()
+            coroutineScope = get(),
+            isCanary = PlatformDebug.isDebug
         )
     }
 

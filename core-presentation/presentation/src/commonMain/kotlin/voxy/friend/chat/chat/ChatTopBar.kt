@@ -19,11 +19,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 import org.jetbrains.compose.resources.painterResource
@@ -44,8 +46,8 @@ import voxy.friend.chat.network.NetworkState
 fun ChatTopBar(
     modifier: Modifier = Modifier,
     showMoreMenu: Boolean,
-    onMoreMenuClick: () -> Unit,
-    onDismissMenu: () -> Unit,
+    onMoreMenuClick: suspend () -> Unit,
+    onDismissMenu: suspend () -> Unit,
     onProfileClick: () -> Unit,
     onDisappearingChatsToggle: (Boolean) -> Unit,
     onSetMoodClick: () -> Unit,
@@ -53,6 +55,7 @@ fun ChatTopBar(
     onStartTrialClick: () -> Unit,
     disappearingChatsEnabled: Boolean = false
 ) {
+    val scope = rememberCoroutineScope()
     Column(modifier = modifier) {
         val monitor: NetworkMonitor = koinInject<NetworkMonitor>()
         val networkState by monitor.networkState.collectAsStateWithLifecycle()
@@ -102,7 +105,7 @@ fun ChatTopBar(
 
             Icon(
                 modifier = Modifier.align(Alignment.CenterVertically).clickable {
-                    onMoreMenuClick()
+                    scope.launch { onMoreMenuClick() }
                 },
                 painter = painterResource(Res.drawable.ic_magic),
                 contentDescription = "Magic Options",
@@ -111,7 +114,9 @@ fun ChatTopBar(
             Spacer(modifier = Modifier.width(10.sdp))
 
             Box(modifier = Modifier.align(Alignment.CenterVertically)) {
-                IconButton(onClick = onMoreMenuClick) {
+                IconButton(onClick = {
+                    onMoreMenuClick
+                }) {
                     Icon(
                         painter = painterResource(Res.drawable.more),
                         contentDescription = "More Options",
@@ -120,7 +125,9 @@ fun ChatTopBar(
 
                 CustomChatPopupMenu(
                     expanded = showMoreMenu,
-                    onDismiss = onDismissMenu,
+                    onDismiss = {
+                        onDismissMenu
+                    },
                     onProfileClick = onProfileClick,
                     onDisappearingChatsToggle = onDisappearingChatsToggle,
                     onSetMoodClick = onSetMoodClick,

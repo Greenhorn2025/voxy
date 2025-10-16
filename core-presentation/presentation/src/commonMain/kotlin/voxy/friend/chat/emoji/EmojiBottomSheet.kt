@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,19 +34,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmojiBottomSheet(
-    onEmojiSelected: (String) -> Unit,
-    onDismiss: () -> Unit
+    onEmojiSelected: suspend (String) -> Unit,
+    onDismiss: suspend () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var selectedCategory by remember { mutableStateOf(EmojiCategory.SMILEYS) }
     var recentEmojis by remember { mutableStateOf(listOf<String>()) }
+    val scope = rememberCoroutineScope()
 
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            onDismiss
+        },
         sheetState = sheetState,
         containerColor = Color(0xFF1F1F1F),
         contentColor = Color.White,
@@ -126,7 +131,7 @@ fun EmojiBottomSheet(
                                 .size(48.dp)
                                 .clip(CircleShape)
                                 .clickable {
-                                    onEmojiSelected(emoji)
+                                    scope.launch { onEmojiSelected(emoji) }
                                     // Add to recent
                                     if (!recentEmojis.contains(emoji)) {
                                         recentEmojis = listOf(emoji) + recentEmojis.take(39)

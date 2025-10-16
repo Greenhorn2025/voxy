@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -47,6 +48,11 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
 
+            implementation(libs.ktor.client.websockets)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.serialization.json)
         }
 
@@ -58,13 +64,15 @@ kotlin {
             implementation(libs.bundles.coil3.okhttp)
 
             implementation(libs.koin.core)
-
+            implementation(libs.ktor.client.okhttp)
+            api(libs.androidx.work.runtime)
             //Otpless
             api(libs.otpless.headless.sdk)
         }
 
         iosMain.dependencies {
             // iOS-specific dependencies if any
+            implementation(libs.ktor.client.darwin)
         }
 
         commonTest.dependencies {

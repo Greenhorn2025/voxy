@@ -19,11 +19,13 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import network.chaintech.sdpcomposemultiplatform.sdp
 import network.chaintech.sdpcomposemultiplatform.ssp
 import org.koin.compose.koinInject
@@ -44,6 +46,7 @@ fun CustomChatMenuItem(
 ) {
     val chatViewModel = koinInject<ChatViewModel>()
     val uiState by chatViewModel.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
 
     Row(
         modifier = Modifier
@@ -93,7 +96,11 @@ fun CustomChatMenuItem(
             Spacer(modifier = Modifier.width(12.sdp))
             Switch(
                 checked = uiState.disappearingChatsEnabled,
-                onCheckedChange = { chatViewModel.handleEvent(ChatUiEvent.DisappearingChatsEnabled)},
+                onCheckedChange = {
+                    scope.launch {
+                        chatViewModel.handleEvent(ChatUiEvent.DisappearingChatsEnabled)
+                    }
+                },
                 thumbContent = if (uiState.disappearingChatsEnabled) {
                     {
                         Icon(

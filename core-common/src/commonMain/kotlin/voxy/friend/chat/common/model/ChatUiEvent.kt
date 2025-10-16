@@ -1,8 +1,10 @@
 package voxy.friend.chat.common.model
 
+import voxy.friend.chat.common.model.chat.MessageEntity
+
 open class ChatUiEvent {
     data class SendMessage(val content: String) : ChatUiEvent()
-    data class ReceiveMessage(val message: Message) : ChatUiEvent()
+    data class ReceiveMessage(val message: MessageEntity) : ChatUiEvent()
     data class RetryMessage(val messageId: String) : ChatUiEvent()
 
     object ShowEmojiPicker : ChatUiEvent()

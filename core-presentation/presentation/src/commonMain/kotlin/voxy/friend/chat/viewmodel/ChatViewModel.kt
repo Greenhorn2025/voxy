@@ -4,16 +4,19 @@ import voxy.friend.chat.common.model.ChatUiEvent
 import voxy.friend.chat.common.model.ChatUiState
 import voxy.friend.chat.datastore.VoxyDataStoreImpl
 import voxy.friend.chat.network.NetworkMonitor
+import voxy.friend.chat.usecase.ChatMessageUseCase
 
 class ChatViewModel(
     networkMonitor: NetworkMonitor,
-    dataStore: VoxyDataStoreImpl
+    dataStore: VoxyDataStoreImpl,
+    private val chatMessageUseCase: ChatMessageUseCase
 ) : BaseViewModel<ChatUiState, ChatUiEvent>(networkMonitor, dataStore) {
 
-    fun handleEvent(event: ChatUiEvent) {
+    suspend fun handleEvent(event: ChatUiEvent) {
         when (event) {
             is ChatUiEvent.SendMessage -> {
                 // Handle send message event
+                sendMessage(event.content, 1011)
             }
             is ChatUiEvent.ReceiveMessage -> {
                 // Handle receive message event
@@ -40,6 +43,10 @@ class ChatViewModel(
                 hideEmojiPicker()
             }
         }
+    }
+
+    suspend fun sendMessage(text: String, userId: Long) {
+        chatMessageUseCase.sendMessage(text, userId)
     }
 
     private fun showMoreOptions() {

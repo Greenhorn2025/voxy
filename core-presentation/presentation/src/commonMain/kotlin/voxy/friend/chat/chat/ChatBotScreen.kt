@@ -23,10 +23,10 @@ fun ChatBotScreen(modifier: Modifier = Modifier, onStartTrialClick: () -> Unit =
         topBar = {
             ChatTopBar(modifier = Modifier.fillMaxWidth(), showMoreMenu = uiState.showMoreMenu, // Pass state
                 onMoreMenuClick = {
-                    chatViewModel.handleEvent(ChatUiEvent.ShowMoreMenu)
+                    chatViewModel.handleEvent(event =ChatUiEvent.ShowMoreMenu)
                 },
                 onDismissMenu = {
-                    chatViewModel.handleEvent(ChatUiEvent.HideMoreMenu)
+                    chatViewModel.handleEvent(event =ChatUiEvent.HideMoreMenu)
                 },
                 onProfileClick = { /* Handle profile click */ },
                 onDisappearingChatsToggle = { /* Handle toggle */ },
@@ -39,11 +39,13 @@ fun ChatBotScreen(modifier: Modifier = Modifier, onStartTrialClick: () -> Unit =
             )
         }, bottomBar = {
             BottomMessageInput(onEmojiClick = {
-                chatViewModel.handleEvent(ChatUiEvent.ShowEmojiPicker)
+                chatViewModel.handleEvent(event =ChatUiEvent.ShowEmojiPicker)
+            }, onSendMessage = { msg ->
+                chatViewModel.handleEvent(event = ChatUiEvent.SendMessage(content = msg))
             })
         }
     ) { paddingValues ->
-        ChatContent(modifier = Modifier.fillMaxSize().padding(paddingValues))
+        ChatContent(modifier = Modifier.fillMaxSize().padding(paddingValues), chatViewModel)
     }
 
     if (uiState.showEmojiBottomSheet) {

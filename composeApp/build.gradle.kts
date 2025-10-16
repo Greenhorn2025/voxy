@@ -42,6 +42,8 @@ kotlin {
             implementation(libs.firebase.analytics)
             implementation(libs.firebase.crashlytics.ndk)
             implementation(libs.firebase.perf)
+
+            implementation(libs.androidx.lifecycle.process)
         }
         commonMain.dependencies {
             api(projects.imageLoading)

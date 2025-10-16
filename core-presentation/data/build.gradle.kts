@@ -32,7 +32,12 @@ kotlin {
             api(libs.napier)
 
             // Ktor
-            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.websockets)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+
             implementation(compose.ui)
 
             implementation(compose.runtime)
@@ -44,6 +49,7 @@ kotlin {
         }
 
         androidMain.dependencies {
+            implementation(libs.ktor.client.android)
             // Android-specific dependencies if any
             implementation(libs.androidx.activity.compose)
             implementation(compose.preview)
@@ -54,6 +60,7 @@ kotlin {
 
         iosMain.dependencies {
             // iOS-specific dependencies if any
+            implementation(libs.ktor.client.darwin)
         }
 
         commonTest.dependencies {
